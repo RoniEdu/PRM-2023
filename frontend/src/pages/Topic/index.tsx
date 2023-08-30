@@ -1,15 +1,17 @@
 import { Box } from "@mui/material"
 import HeaderProfile from "../../components/HeaderProfile"
 import TopicList from "../../components/TopicList"
+import { useEffect, useState } from "react"
 
 function TopicPage() {
 
-    const profile = {
-        fullname: 'Roni Eduardo',
-        username: 'roniedu',
-        description: 'muita fome e vontade de toma uma, vesperá de feriadooo',
-        createAt: '2022-08-13'
-    }
+  const [profile, setProfile] = useState({});
+
+  useEffect(() => {
+    fetch('http://localhost:3000/profile').then(res => res.json())
+    .then(data => {
+        setProfile(data);}) 
+  }, [])
 
     const topics = [
         {
@@ -53,6 +55,8 @@ function TopicPage() {
             createAt: '2023-10-19 19:30:53'
         },
     ]
+
+
 
     return (
         <Box id="topic-page" display="flex" flexDirection="column" alignItems="center" gap={3}>
