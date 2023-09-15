@@ -62,7 +62,7 @@ function TopicPage() {
         <Box id="topic-page" display="flex" flexDirection="column" alignItems="center" gap={3}>
             <HeaderProfile user={profile} />
 
-            <TopicList items={profile}/>
+            <TopicList items={topics}/>
         </Box>
     )
 }

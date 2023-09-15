@@ -1,13 +1,15 @@
 import { Avatar, Box, Typography } from "@mui/material";
 import { CalendarMonthOutlined } from "@mui/icons-material";
 
+import { IntlProvider, FormattedDate } from "react-intl";
+
 //import de imagens
 import banner from '../../assets/img/profile_banner.png';
 import avatar from '../../assets/img/profile_avatar.jpg';
 
 //import do estilo
 import './style.css'
-import { IntlProvider, FormattedDate } from "react-intl";
+
 
 type HeaderProfileProps = {
     user: any
