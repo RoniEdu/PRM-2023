@@ -2,6 +2,7 @@ import { Topic } from './../entities/topic.entity';
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { ApplicationException } from "src/exceptions";
 
 
 @Injectable()
@@ -27,4 +28,19 @@ export class TopicService {
     async delete(id: number): Promise<void> {
         await this.repository.delete(id);
     }
+    async update(id: number, topic: Topic): Promise<Topic> {
+
+        const found = await this.repository.findOneBy({id: id})
+    
+        if (!found) {
+            throw new ApplicationException('Topic not found', 404)
+            //To-do: implementar exceção
+        }
+    
+        //Garante que o objeto substituido terá o mesmo ID da requisição
+        topic.id = id;
+    
+        return this.repository.save(topic);
+    
+        }
 }
