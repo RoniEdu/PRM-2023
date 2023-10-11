@@ -1,10 +1,11 @@
 import { ParseIntPipe } from "@nestjs/common";
-import { Body, Controller, Get, Param, Post, Delete, HttpCode } from "@nestjs/common/decorators";
+import { Body, Controller, Get, Param, Post, Delete, HttpCode, UseGuards } from "@nestjs/common/decorators";
 import { Topic } from "src/entities/topic.entity";
 import { TopicService } from "src/services/topic.service";
 import { HttpStatus } from "@nestjs/common";
 import { HttpException } from "@nestjs/common";
 import { Put } from "@nestjs/common/decorators";
+import { AuthGuard } from "src/guards/auth.guard";
 
 
 @Controller('topics')
@@ -12,6 +13,7 @@ export class TopicController {
 
     constructor(private readonly service: TopicService) { }
 
+    @UseGuards(AuthGuard)
     @Get()
     findAll(): Promise<Topic[]> {
         return this.service.findAll();
