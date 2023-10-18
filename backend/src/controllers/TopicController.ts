@@ -1,5 +1,5 @@
-import { ParseIntPipe } from "@nestjs/common";
-import { Body, Controller, Get, Param, Post, Delete, HttpCode, UseGuards } from "@nestjs/common/decorators";
+import { ClassSerializerInterceptor, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Delete, HttpCode, UseGuards, UseInterceptors } from "@nestjs/common/decorators";
 import { Topic } from "src/entities/topic.entity";
 import { TopicService } from "src/services/topic.service";
 import { HttpStatus } from "@nestjs/common";
@@ -7,6 +7,7 @@ import { HttpException } from "@nestjs/common";
 import { Put } from "@nestjs/common/decorators";
 import { AuthGuard } from "src/guards/auth.guard";
 
+@UseInterceptors(ClassSerializerInterceptor)
 
 @Controller('topics')
 export class TopicController {
