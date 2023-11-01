@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Card, CardContent, CircularProgress, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardContent, Snackbar, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../../@types";
 import { useState, FormEvent } from 'react';
@@ -34,9 +34,21 @@ function SignUpPage() {
         event.preventDefault();
 
         setLoading(true);
+        setMessageError('')
+
 
         try {
             await register(userForm);
+
+            setUserForm({
+                fullname: '',
+                username: '',
+                password: '',
+                description: ''
+            })
+
+            setMessageSuccess('Usuário criado com sucesso')
+
         } catch (e) {
             const error = e as Error;
             setMessageError(String(error.message));
@@ -96,16 +108,16 @@ function SignUpPage() {
             </form>
 
             <Snackbar open={Boolean(messageError)}
-                autoHideDuration={6000} anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+                autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
 
                 <Alert severity="error" variant="filled" onClose={() => setMessageError('')}>
                     {messageError}
                 </Alert>
 
             </Snackbar>
-            
+
             <Snackbar open={Boolean(messageSuccess)}
-                autoHideDuration={6000} anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+                autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
 
                 <Alert severity="success" variant="filled" onClose={() => setMessageSuccess('')}>
                     {messageSuccess}

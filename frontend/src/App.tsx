@@ -15,6 +15,7 @@ function App() {
       {user ? (
         <Routes>
           <Route path="/" element={<TopicPage />} />
+          <Route path="/:username" element={<TopicPage />} />
         </Routes>
       ) : (
         <Routes>
