@@ -1,24 +1,28 @@
-import { Avatar, Typography } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 
-import './style.css'
-
-function TopicCardHeader() {
+function TopicCardSkeleton() {
     return (
-        <div id="topic-card-header">
-            <Avatar alt="Fulano de Tal" />
+        <div id="topic-card-skeleton">
 
-            <div className="card-header-text">
-            <Typography variant="h6">
-                Fulano de Tal
-            </Typography>
+            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+                <Skeleton variant="circular" width={40} height={40} />
+                <Skeleton width={150} />
+                <Skeleton width={150} />
+            </Box>
 
-            <Typography variant="caption">
-                Criado há 8 anos
-            </Typography>
-            </div>
-            
+            <Skeleton style={{marginLeft: '3rem', marginRight: '1rem'}} />
+            <Skeleton style={{marginLeft: '3rem', marginRight: '1rem'}} />
+            <Skeleton style={{marginLeft: '3rem', marginRight: '1rem'}} />
+
+            <Box display="flex" flexDirection="row" gap={3}
+                 style={{marginTop: '1rem', marginLeft: '3rem'}}>
+                <Skeleton width={60} />
+                <Skeleton width={60} />
+                <Skeleton width={60} />
+            </Box>
+
         </div>
     )
 }
 
-export default TopicCardHeader; //usando default pode ser alterado o nome.
+export default TopicCardSkeleton;

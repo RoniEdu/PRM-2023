@@ -1,12 +1,12 @@
 import { Alert, Box, Button, Card, CardContent, Snackbar, TextField, Typography } from "@mui/material";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../../@types";
-import { useState, FormEvent } from 'react';
 import { LoadingButton } from "@mui/lab";
 import { useAuth } from "../../hook/useAuth";
 
-import '../../assets/css/sign.css';
 
+import '../../assets/css/sign.css';
 
 function SignUpPage() {
 
@@ -24,7 +24,7 @@ function SignUpPage() {
     );
 
     //State - Loading
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false)
 
     //State - Messages
     const [messageError, setMessageError] = useState('');
@@ -34,10 +34,11 @@ function SignUpPage() {
         event.preventDefault();
 
         setLoading(true);
-        setMessageError('')
-
+        setMessageError('');
+        setMessageSuccess('');
 
         try {
+
             await register(userForm);
 
             setUserForm({
@@ -47,18 +48,14 @@ function SignUpPage() {
                 description: ''
             })
 
-            setMessageSuccess('Usuário criado com sucesso')
+            setMessageSuccess('Usuário criado com sucesso');
 
         } catch (e) {
             const error = e as Error;
             setMessageError(String(error.message));
-
-
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-
-
     }
 
     return (
@@ -67,26 +64,38 @@ function SignUpPage() {
                 <Card>
                     <CardContent className="sign-content">
                         <Typography variant="h5">
-                            Crie uma conta
+                            Crie uma Conta
                         </Typography>
                         <Typography variant="subtitle1">
-                            Ainda não tem uma conta TOPIC?
+                            Ainda não tem uma conta TOPIC? 
                         </Typography>
 
-                        {/* <h1>## { JSON.stringify(userForm) } ##</h1> */}
-                        <TextField label="Nome Completo" required fullWidth value={userForm.fullname}
-                            onChange={event => setUserForm({ ...userForm, fullname: (event.target as HTMLInputElement).value })} />
+                        <TextField label="Nome Completo"
+                            required
+                            fullWidth
+                            value={ userForm.fullname }
+                            onChange={event => setUserForm({...userForm, fullname: (event.target as HTMLInputElement).value})} />
 
-                        <TextField label="Usuário" required fullWidth value={userForm.username}
-                            onChange={event => setUserForm({ ...userForm, username: (event.target as HTMLInputElement).value })} />
+                        <TextField label="Usuário"
+                            required
+                            fullWidth
+                            value={ userForm.username }
+                            onChange={event => setUserForm({...userForm, username: (event.target as HTMLInputElement).value})} />
 
+                        <TextField label="Senha"
+                            required
+                            fullWidth
+                            type="password"
+                            value={ userForm.password }
+                            onChange={event => setUserForm({...userForm, password: (event.target as HTMLInputElement).value})} />
 
-                        <TextField label="Senha" required fullWidth type="password" value={userForm.password}
-                            onChange={event => setUserForm({ ...userForm, password: (event.target as HTMLInputElement).value })} />
-
-                        <LoadingButton type="submit" variant="contained" size="large" loading={loading}> Criar
+                        <LoadingButton type="submit"
+                            variant="contained"
+                            size="large"
+                            loading={loading}>
+                            Criar
                         </LoadingButton>
-
+                            
                         <Box className="sign-separator">
                             <Box className="traco"></Box>
                             <Typography component="h5">OU</Typography>
@@ -99,30 +108,39 @@ function SignUpPage() {
                         <Typography variant="subtitle1">
                             Já tem uma conta TOPIC?
                         </Typography>
-                        <Button type="submit" variant="outlined" size="large" onClick={() => navigate('/signin')}>
+                        <Button 
+                            variant="outlined"
+                            size="large"
+                            onClick={() => navigate('/signin') }>
                             Acessar Conta
                         </Button>
-                    </CardContent>
 
+                    </CardContent>
                 </Card>
             </form>
 
-            <Snackbar open={Boolean(messageError)}
-                autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+            <Snackbar
+                open={Boolean(messageError)}
+                autoHideDuration={6000}
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
 
-                <Alert severity="error" variant="filled" onClose={() => setMessageError('')}>
+                <Alert severity="error" 
+                    variant="filled" 
+                    onClose={() => setMessageError('')}>
                     {messageError}
                 </Alert>
-
             </Snackbar>
 
-            <Snackbar open={Boolean(messageSuccess)}
-                autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+            <Snackbar
+                open={Boolean(messageSuccess)}
+                autoHideDuration={6000}
+                anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
 
-                <Alert severity="success" variant="filled" onClose={() => setMessageSuccess('')}>
+                <Alert severity="success" 
+                    variant="filled" 
+                    onClose={() => setMessageSuccess('')}>
                     {messageSuccess}
                 </Alert>
-
             </Snackbar>
         </Box>
     )

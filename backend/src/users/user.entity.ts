@@ -5,16 +5,16 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
-
+  
+    @Column({nullable: false, length: 20})
+    username: string;
+  
     @Column({nullable: false, length: 50})
     fullname: string;
 
-    @Column({nullable: false, length: 20})
-    username: string;
-
     @Column({length: 250})
     description: string;
-
+  
     @Exclude()
     @Column({nullable: false, length: 20})
     password: string;
@@ -23,5 +23,5 @@ export class User {
     createdAt: Date;
 
     @UpdateDateColumn({name: 'updated_at'})
-    updateAt: Date;
-}
+    updatedAt: Date;
+  }

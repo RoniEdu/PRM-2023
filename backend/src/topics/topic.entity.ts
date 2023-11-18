@@ -1,21 +1,21 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, PrimaryGeneratedColumn, ManyToOne, UpdateDateColumn } from "typeorm";
-import { User } from "./user.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { User } from "../users/user.entity";
 
 @Entity()
 export class Topic {
     @PrimaryGeneratedColumn()
     id: number;
-
+  
     @Column({nullable: false, length: 250})
     content: string;
 
     @ManyToOne(() => User, {eager: true, nullable: false})
     @JoinColumn({name: 'user_id'})
-    owner: User;
+    owner: User
 
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
 
     @UpdateDateColumn({name: 'updated_at'})
-    updateAt: Date;
+    updatedAt: Date;
 }

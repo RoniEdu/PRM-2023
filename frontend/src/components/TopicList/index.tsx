@@ -5,21 +5,22 @@ type TopicListProps = {
     items: any
 }
 
-function TopicList( {
+function TopicList({
     items
-}: TopicListProps){
+}: TopicListProps) {
     return (
-        <Box id="topics-list" display="flex" flexDirection="column" gap={3} style={{ maxWidth: '64rem' }}>
+        <Box id="topics-list" display="flex" flexDirection="column"
+             gap={3} style={{marginTop: '2rem', maxWidth: '64rem'}}>
 
             {items.map((item: any, index: number) => (
                 <Box display="flex" flexDirection="column" gap={3}
-                key={index}>
-                <TopicCard topic={item} />
-                <Divider />
+                     key={index}>
+                    <TopicCard topic={item} />
+                    <Divider />
                 </Box>
             ))}
         </Box>
     )
 }
 
-export default TopicList;
+export default TopicList
