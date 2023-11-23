@@ -1,32 +1,29 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/users/user.entity";
 import { ApplicationException } from "src/@exceptions";
 import { Repository } from "typeorm";
-import { Comment } from "src/comments/comment.entity";
-import { Topic } from 'src/topics/topic.entity';
+import { Topic } from "./topic.entity";
+import { User } from "src/users/user.entity";
 
 @Injectable()
 export class TopicService {
 
     constructor(
-        @InjectRepository(Comment)
-        private readonly repository: Repository<Comment>,
+        @InjectRepository(Topic)
+        private readonly repository: Repository<Topic>,
     ) {}
 
-    findByTopic(topic: Topic): Promise<Comment[]> {
+    findAll(): Promise<Topic[]> {
         return this.repository.find({
-            where: {
-                topic: {
-                    id: topic.id
-                }
+            order: {
+                id: 'DESC'
             }
         });
     }
-    findById(id: number): Promise<Comment> {
+    findById(id: number): Promise<Topic> {
         return this.repository.findOneBy({ id: id });
     }
-    findByUser(user: User): Promise<Comment[]> {
+    findByUser(user: User): Promise<Topic[]> {
         return this.repository.find({
             where: {
                 owner: {
@@ -38,25 +35,25 @@ export class TopicService {
             }
         });
     }
-    create(Topic: Comment): Promise<Comment> {
-        return this.repository.save(Comment);
+    create(topic: Topic): Promise<Topic> {
+        return this.repository.save(topic);
     }
     async delete(id: number): Promise<void> {
         await this.repository.delete(id);
     }
 
-    async update(id: number, Comment: Comment): Promise<Comment> {
+    async update(id: number, topic: Topic): Promise<Topic> {
 
         const found = await this.repository.findOneBy({id: id})
 
         if (!found) {
-            throw new ApplicationException('Comment not found', 404)
+            throw new ApplicationException('Topic not found', 404)
         }
 
         //Garante que o objeto substituido terá o mesmo ID da requisição
-        Comment.id = id;
+        topic.id = id;
 
-        return this.repository.save(Comment);
+        return this.repository.save(topic);
 
     }
 }

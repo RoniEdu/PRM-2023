@@ -2,22 +2,21 @@ import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, Pri
 import { User } from "../users/user.entity";
 import { Topic } from "src/topics/topic.entity";
 
-@Entity()
+@Entity('topic_user_comment')
 export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
   
-    //Sem essa parte se for fazer o curtir
     @Column({nullable: false, length: 250})
     content: string;
 
     @ManyToOne(() => User, {eager: true, nullable: false})
     @JoinColumn({name: 'user_id'})
-    User: User;
+    user: User;
 
-    @ManyToOne(() => User, {eager: true, nullable: false})
+    @ManyToOne(() => Topic, {eager: true, nullable: false})
     @JoinColumn({name: 'topic_id'})
-    Topic: Topic;
+    topic: Topic;
 
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;

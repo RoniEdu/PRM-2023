@@ -1,58 +1,30 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { User } from "src/users/user.entity";
-import { ApplicationException } from "src/@exceptions";
+import { Topic } from "src/topics/topic.entity";
 import { Repository } from "typeorm";
+import { Comment } from "./comment.entity";
 
 @Injectable()
 export class CommentService {
 
     constructor(
-        @InjectRepository(Topic)
-        private readonly repository: Repository<Topic>,
+        @InjectRepository(Comment)
+        private readonly repository: Repository<Comment>,
     ) {}
 
-    findAll(): Promise<Topic[]> {
-        return this.repository.find({
-            order: {
-                id: 'DESC'
-            }
-        });
-    }
-    findById(id: number): Promise<Topic> {
-        return this.repository.findOneBy({ id: id });
-    }
-    findByUser(user: User): Promise<Topic[]> {
+    findByTopic(topic: Topic): Promise<Comment[]> {
         return this.repository.find({
             where: {
-                owner: {
-                    id: user.id
+                topic: {
+                    id: topic.id
                 }
-            },
-            order: {
-                id: 'DESC'
             }
         });
     }
-    create(topic: Topic): Promise<Topic> {
+    create(topic: Comment): Promise<Comment> {
         return this.repository.save(topic);
     }
     async delete(id: number): Promise<void> {
         await this.repository.delete(id);
-    }
-
-    async update(id: number, topic: Topic): Promise<Topic> {
-
-        const found = await this.repository.findOneBy({id: id})
-
-        if (!found) {
-            throw new ApplicationException('Topic not found', 404)
-        }
-
-        //Garante que o objeto substituido terá o mesmo ID da requisição
-        topic.id = id;
-
-        return this.repository.save(topic);
-
     }
 }

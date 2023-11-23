@@ -1,28 +1,39 @@
-import { Box, Skeleton } from "@mui/material";
+import {Avatar, Typography} from '@mui/material';
 
-function TopicCardSkeleton() {
+import './style.css';
+import { IUser } from '../../@types';
+import { FormattedDate, IntlProvider } from 'react-intl';
+
+type TopicCardHeaderProps = {
+    createdAt: Date | undefined;
+    owner: IUser | undefined;
+}
+
+function TopicCardHeader({
+    createdAt,
+    owner
+}: TopicCardHeaderProps) {
     return (
-        <div id="topic-card-skeleton">
+        <div id="topic-card-header">
+            <Avatar alt={owner?.fullname} />
 
-            <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
-                <Skeleton variant="circular" width={40} height={40} />
-                <Skeleton width={150} />
-                <Skeleton width={150} />
-            </Box>
+            <div className="card-header-text">
+                <Typography variant="h6">
+                    {owner?.fullname}
+                </Typography>
 
-            <Skeleton style={{marginLeft: '3rem', marginRight: '1rem'}} />
-            <Skeleton style={{marginLeft: '3rem', marginRight: '1rem'}} />
-            <Skeleton style={{marginLeft: '3rem', marginRight: '1rem'}} />
-
-            <Box display="flex" flexDirection="row" gap={3}
-                 style={{marginTop: '1rem', marginLeft: '3rem'}}>
-                <Skeleton width={60} />
-                <Skeleton width={60} />
-                <Skeleton width={60} />
-            </Box>
-
+                <Typography variant="caption">
+                    <IntlProvider locale='pt-BR'>
+                        Criado em <FormattedDate value={createdAt} day='2-digit'
+                                        month='2-digit' year='numeric' />
+                    </IntlProvider>
+                    
+                </Typography>
+            </div>
+            
         </div>
+
     )
 }
 
-export default TopicCardSkeleton;
+export default TopicCardHeader;
