@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { Topic } from './topics/topic.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from './users/user.module';
 import { TopicModule } from './topics/topic.module';
