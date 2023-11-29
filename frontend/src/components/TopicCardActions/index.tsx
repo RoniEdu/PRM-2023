@@ -1,4 +1,4 @@
-import { ChatBubble, ChatBubbleOutline, FavoriteBorder, Repeat } from "@mui/icons-material";
+import { ChatBubble, ChatBubbleOutline, Repeat } from "@mui/icons-material";
 import { Avatar, Box, Button, Tooltip, Typography } from "@mui/material";
 
 import './style.css';
@@ -11,13 +11,20 @@ type TopicCardActionsProps = {
 
     reposters: IUser[],
     clickRepost: () => void,
+
+    likers: IUser[],
+    totalLikes: number,
+    clickLike: () => void,
 }
 function TopicCardActions({
     commented,
     totalComments,
     clickComment,
     reposters,
-    clickRepost
+    clickRepost,
+    likers,
+    totalLikes,
+    clickLike
 
 }: TopicCardActionsProps) {
     return (
@@ -52,10 +59,41 @@ function TopicCardActions({
                 </Button>
             </Tooltip>
 
-            <Button variant="text" size="small" startIcon={<FavoriteBorder />}>
-                33
+
+
+            <Button variant="text" size="small"
+                startIcon={likers ? <ChatBubble /> : <ChatBubbleOutline />}
+                onClick={clickLike}>
+                {totalLikes}
             </Button>
-        </div>
+
+            <Tooltip title={likers.length > 0 ? (
+                    <Box display="flex" flexDirection="column" gap={1}
+                        style={{ padding: '0.5rem' }}>
+
+                        {likers.map((user, index) => (
+                            <Box display="flex" flexDirection="row" gap={1} key={index}>
+                                <Avatar alt={user.fullname} sx={{ width: 24, height: 24 }} />
+
+                                <Typography variant="body2">
+                                    {user.fullname}
+                                </Typography>
+                            </Box>
+                        ))}
+
+                    </Box>
+                ) : (
+                    <span>Likes</span>
+                )
+            }>
+                <Button size="small" variant="text" startIcon={<Repeat />}
+                    onClick={clickLike}>
+                    {likers.length}
+                </Button>
+        </Tooltip>
+                
+            
+        </div >
     )
 }
 

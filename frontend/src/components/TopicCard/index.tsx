@@ -94,7 +94,32 @@ function TopicCard({
 
 
     //LIKES
+    const [topicliked, setTopicLike] = useState<ITopic>();
+    const [likers, setLikers] = useState<IUser[]>([])
+    const handleClickLike = () => {
+        //Preparar um Topic para ser endiado pro servidor
+        const likeForm: ITopic = {
+            owner: user,
+            repost: topic,
+            content: topic.content
+        }
 
+        //Chamar a service que manda o topic para o servidor
+        createTopic(likeForm)
+            .then(result => {
+                setReposters([...likers, result.data.owner])
+
+                setTopics([result.data, ...topics])
+
+                setMessageSuccess('Tópico curtido com sucesso');
+                setTimeout(() => {
+                    setMessageSuccess('');
+                }, 5000);
+            })
+            .catch(error => {
+                setMessageError(error.message)
+            })
+    }
     //EFFECT
     useEffect(() => {
 
@@ -142,7 +167,30 @@ function TopicCard({
             })
 
         //TO-DO: Likes
+        if (topic.topic_id) {
+            getTopicsById(topic.topic_id)
+                .then(result => {
+                    setTopicLike(result.data)
+                })
+                .catch(error => {
+                    setMessageError(error.message)
+                })
+        }
+        getLikedByTopic(topic)
+            .then(result => {
+                const dados: ITopic[] = result.data;
 
+                const users: IUser[] = []
+                dados.forEach(topic => {
+                    if (topic.owner) {
+                        users.push(topic.owner)
+                    }
+                })
+                setLikers(users);
+            })
+            .catch(error => {
+                setMessageError(error.message);
+            })
     }, []);
 
     return (
@@ -154,12 +202,20 @@ function TopicCard({
 
             <TopicCardBody
                 topicReposted={topicReposted}
-                content={topic.content} />
+                content={topic.content} 
+                
+                topicLike={topicliked}
+                
+                />
 
             <TopicCardActions
                 commented={Boolean(comment.user)}
                 totalComments={totalComments}
                 clickComment={handleClickComment}
+
+                clickLike={handleClickLike}
+                likers={likers}
+                totalLikes={totalLikes}
 
                 reposters={reposters}
                 clickRepost={handleClickRepost} />

@@ -4,6 +4,7 @@ import { ITopic } from "../../@types";
 type TopicCardBodyProps = {
     content: string,
     topicReposted?: ITopic
+    topicLike?: ITopic
 }
 function TopicCardBody({
     content,

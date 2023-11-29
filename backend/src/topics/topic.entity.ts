@@ -18,9 +18,14 @@ export class Topic {
     @JoinColumn ({name: 'topic_id'})
     repost: Topic;
 
+    @JoinColumn ({name: 'topic_id'})
+    like: Topic;
+
     @Column({name: 'topic_id', nullable: true})
     topic_id: number;
   
+    @VirtualColumn({query: (alias) => `select count(id) from topic_user_like where topic_id = ${alias}.id` })
+    totalLikes: number;
 
     @VirtualColumn({query: (alias) => `select count(id) from topic_user_comment where topic_id = ${alias}.id` })
     totalComments: number;
